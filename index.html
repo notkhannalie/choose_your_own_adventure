@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Choose Your Own Adventure</title>
+  <link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fontdiner+Swanky&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div id="story-box">
+    <p id="scene-text"></p>
+    <div id="choices"></div>
+    <button id="restart-btn" onclick="goToScene('start')">↩ Start over</button>
+  </div>
+
+  <script>
+    let story = {
+      "start": {
+        text: "Your son and his friend ask you to come play with you by the lake.",
+        choices: [
+          { label: "You go with them.", next: "play-time" },
+          { label: "You tell them you're busy.", next: "nap" }
+        ]
+      },
+
+      "play-time": {
+        text: "when you are going....",
+        choices: [
+          { label: "you ask your partner to come with you.", next: "more-fun" },
+          { label: "you don't ask your partner to come with you.", next: "less-fun" }
+        ]
+      },
+
+      "nap": {
+        text: "you hear your son and his friend screaming.",
+        choices: [
+          { label: "you run towards them.", next: "good" },
+          { label: "you think they are just playing.", next: "bad" }
+        ]
+      },
+
+      "more-fun": {
+        text: "your partner doesn't want to come with you.",
+        choices: [
+          { label: "you go without them.", next: "end-map" },
+          { label: "you stay with them.", next: "end-key" }
+        ],
+      },
+
+      "less-fun": {
+        text: "the kids ask you to peddle a random boat with them.",
+        choices: [
+          { label: "you do it.", next: "end-village" },
+          { label: "you don't do it.", next: "win" }
+        ]
+      },
+
+      "good": {
+        text: "you see them drowning because they decided to peddle a random boat.",
+        choices: [
+          { label: "you jump in to save them.", next: "end-door" },
+          { label: "you call your partner.", next: "end-good" }  // this one now exists
+        ]
+      },
+
+      "bad": {
+        text: "you keep hearing them screaming.",
+        choices: [
+          { label: "you run towards them now.", next: "end-bad" },
+          { label: "you ask your partner to check on them.", next: "end-mid" }
+        ]
+      },
+
+      "win": {
+        text: "You won!",
+        choices: [],
+        ending: true
+      },
+
+      // ── ENDINGS ──
+      "end-map": {
+        text: "you end up drowing because you decided to peddle a random boat.",
+        choices: [],
+        ending: true
+      },
+
+      "end-key": {
+        text: "the kids drown because they decided to peddle a random boat.",
+        choices: [],
+        ending: true
+      },
+
+      "end-village": {
+        text: "you end up drowning.",
+        choices: [],
+        ending: true
+      },
+
+      "end-door": {
+        text: "you could save your son's friend but not him.",
+        choices: [],
+        ending: true
+      },
+
+      "end-bad": {
+        text: "the kids drown because they decided to peddle a random boat.",
+        choices: [],
+        ending: true
+      },
+
+      "end-mid": {
+        text: "the kids drown because they decided to peddle a random boat and your partner was too late to save them.",
+        choices: [],
+        ending: true
+      },
+
+      "end-good": {
+        text: "your partner arrives in time and saves both kids. (barely.)",
+        choices: [],
+        ending: true
+      }
+    };
+
+    function goToScene(sceneKey) {
+      let scene = story[sceneKey];
+
+      // Safety check (prevents crash + helps debugging)
+      if (!scene) {
+        document.getElementById("scene-text").textContent =
+          `Scene "${sceneKey}" not found. Check your story keys.`;
+        document.getElementById("choices").innerHTML = "";
+        document.getElementById("restart-btn").style.display = "block";
+        return;
+      }
+
+      document.getElementById("scene-text").textContent = scene.text;
+
+      let choicesBox = document.getElementById("choices");
+      choicesBox.innerHTML = "";
+
+      for (let i = 0; i < scene.choices.length; i++) {
+        let choice = scene.choices[i];
+
+        let btn = document.createElement("button");
+        btn.textContent = choice.label;
+        btn.onclick = function () {
+          goToScene(choice.next);
+        };
+
+        choicesBox.appendChild(btn);
+      }
+
+      document.getElementById("restart-btn").style.display =
+        scene.ending ? "block" : "none";
+    }
+
+    goToScene("start");
+  </script>
+
+</body>
+</html>

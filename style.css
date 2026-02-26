@@ -1,0 +1,44 @@
+
+
+  body {
+    background: black;
+    color: red;
+    font-family: "Fontdiner Swanky", cursive;
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 0 20px;
+  }
+
+  #scene-text {
+    font-size: 20px;
+    line-height: 1.8;
+    margin-bottom: 30px;
+  }
+
+  #choices {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  button {
+    background: white;
+    border: 1px solid black;
+    color: blue;
+    padding: 10px 16px;
+    font-size: 16px;
+    font-family: "Times New Roman", serif;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  button:hover {
+    background: yellow;
+    color: black;
+  }
+
+  #restart-btn {
+    display: none;
+    margin-top: 20px;
+  }
+
